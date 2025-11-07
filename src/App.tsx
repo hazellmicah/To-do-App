@@ -1,8 +1,24 @@
 import AddTask from "./Components/AddTask";
+import EditTask from "./Components/EditTask";
 import ListItem from "./Components/ListItem";
-import { useState } from "react";
+import { use, useState } from "react";       
 
 function App() {
+ const updateTask = (taskID : number, taskDetails: string) => {
+  let updTasks = tasks.filter((task) => {
+    if (task.id === taskID)
+      task.task = taskDetails
+    return task
+  })
+  setTasks(updTasks)
+ }
+
+  // const setEditTask = (TaskID) => {};
+const [taskToEdit, setTaskToEdit] = 
+ useState ({
+  id: 0,
+  task: "",
+ })
   // define state variable for tasks with sample task
   const [tasks, setTasks] = useState([
     {
@@ -69,11 +85,13 @@ function App() {
         {/* end btns */}
         {/* pass add new task function to child component */}
         <AddTask addNewTask={addNewTask} />
+        <EditTask taskToEdit= {taskToEdit} updateTask = {updateTask} setTaskToEdit ={setTaskToEdit}  />
         <div className="bg-slate-300 w-full rounded-lg mt-4 px-8 py-6">
+      
           {
             /* iterate over all the elements of the array and pass them to the child component */
             tasks.map((task) => (
-              <ListItem key={task.id} task={task} delTask={deleteTask} toggleComplete = {toggleComplete} />
+              <ListItem key={task.id} task={task} delTask={deleteTask} toggleComplete = {toggleComplete}setEdit = {setTaskToEdit} />
             ))
           }
         </div>
